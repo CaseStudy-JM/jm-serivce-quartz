@@ -51,30 +51,30 @@
 	
 ### Project Modules
 The project consists of following modules:
-* [Job Management Service] : spring boot service for submit,update,delete and retrive jobs, with following features.
+* [Job Management Service] (https://github.com/CaseStudy-JM/jm-serivce-quartz): spring boot service for submit,update,delete and retrive jobs, with following features.
     * Submit job
 	* Update scheduler job details
 	* Delete job by id
     * Retrieve job by id
     * Retrieve all jobs
 * Job Modules
-    * [Job Starter] : spring boot starter job for creating jobs. 
-    * [Job Logger] : simple job which logs 'Hello'. 
-    * [Job Send Emails] : 
+    * [Job Starter] (https://github.com/CaseStudy-JM/jm-job-starter): spring boot starter job for creating jobs. 
+    * [Job Logger] (https://github.com/CaseStudy-JM/jm-job-logger): simple job which logs 'Hello'. 
+    * [Job Send Emails] (https://github.com/CaseStudy-JM/jm-job-send-email): 
         * Read the file datas and send the emails.
 		* User can provide a file path as paramters or by default file will be reffered from class path.
-    * [Job Loads File Data To DB] : 
+    * [Job Loads File Data To DB] : (https://github.com/CaseStudy-JM/jm-job-load-data)
 		* User can provide a file path as argument or by default file will be reffered from class path.
         * Read the file datas and load to database
 
 ### Build & Run
-* Build [Job Starter] : job starter is to be built before building any job.
+* Build [Job Starter] (https://github.com/CaseStudy-JM/jm-job-starter): job starter is to be built before building any job.
     * **Build it** : *mvnw.cmd clean install*
 
 * Build Actual Jobs:
-    * [Job Logger] 
-    * [Job Send Emails]
-    * [Job Loads File Data To DB]
+    * [Job Logger] (https://github.com/CaseStudy-JM/jm-job-logger)
+    * [Job Send Emails](https://github.com/CaseStudy-JM/jm-job-send-email)
+    * [Job Loads File Data To DB](https://github.com/CaseStudy-JM/jm-job-load-data)
         * **Build it** : *mvnw.cmd clean package*
     **Note**: the generated jar files are to be used as job files for job service.
 
@@ -82,3 +82,83 @@ The project consists of following modules:
     * **Build it** : *mvnw.cmd clean package*
     * **Run It** : *java -jar target\jm-service-0.0.1-SNAPSHOT.jar*
     * **Test Via API Swagger** http://localhost:8080/jms/swagger-ui/index.html?configUrl=/jms/v3/api-docs/
+### API Usage
+ * Job Submission 
+     * Request URL : http://localhost:8080/jms/api/v1/job
+     * Request Body:
+        ```
+        form : {job}.jar
+		jobName: job_name
+		jobGroupName: job_group_name
+        jobType : SPRING_BOOT_JAR
+        executionType : IMMEDIATE/SCHEDULED
+        parameters : 'optional, space seperated parameter for job'
+        environmentString : 'optional, space seperated environment variable for job'
+        priority : 'optional, int value representing job priority (1-10)' Default value 5
+        schedule : 'optional, schedule represented in 'yyyy-MM-dd HH:mm:ss' format' 
+		cronExpression: cron expression to repeat the jobs
+		repeatTime: job to repeate on interval default value 60000
+        ```
+     * Response Header:
+        ```
+        Location : http://localhost:8080/jms/api/v1/job/{jobId} 
+        ```
+     * Response Status:
+        ```
+        201
+        ```
+ * Get Job By Id
+     * Request URL : http://localhost:8080/jms/api/v1/job/{jobId} 
+     * Response Body:
+        ```
+        {
+          "id": {jobId},
+          "type": "SPRING_BOOT_JAR",
+          "status": "{QUEUED | FAILED | SUCCESS}",
+          "fileLocation": ".store/{jobId}.jar",
+		  "jobName": "job_name",
+		  "jobGroupName: job_group_name",
+		  "cronExpression": "0 0 * * 5",
+		  "repeatTime": "6000",
+          "schedule": {
+            "executionType": "IMMEDIATE"
+          }
+        }
+        ```
+     * Response Status:
+        ```
+        200
+        ```
+  * Get All Jobs 
+      * Request URL : http://localhost:8080/jms/api/v1/job
+      * Response Body:
+         ```
+         [
+             {
+               "id": {jobId},
+               "type": "SPRING_BOOT_JAR",
+               "status": "{QUEUED | FAILED | SUCCESS}",
+               "fileLocation": ".store/{jobId}.jar",
+               "schedule": {
+                 "executionType": "IMMEDIATE"
+               }
+			"jobName": "job_name",
+			"jobGroupName: job_group_name",
+			"cronExpression": "0 0 * * 5",
+			"repeatTime": "6000",
+             }
+             ...
+         ]
+         ```
+      * Response Status:
+         ```
+         200
+         ```                
+
+### Guides
+The following guides illustrate how to use some features concretely:
+
+* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
+* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
+* [Building Quartz Jobs] (http://www.quartz-scheduler.org/documentation/quartz-2.3.0/examples/)
+* [Liquibase integration] (https://docs.liquibase.com/tools-integrations/springboot/using-springboot-with-maven.html)
