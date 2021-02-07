@@ -1,0 +1,95 @@
+spring:
+  batch:
+    job:
+      enabled: false
+  profiles:
+    active: "dev"
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  quartz:
+    properties:
+      org.quartz.scheduler.instanceName:  jms-quartz-app
+      org.quartz.scheduler.instanceId: AUTO
+      org.quartz.scheduler.instanceIdGenerator.class: com.payoneer.cs.config.CustomQuartzInstanceIdGenerator
+      org.quartz.threadPool.threadCount: 20
+      org.quartz.jobStore.class: org.quartz.impl.jdbcjobstore.JobStoreTX
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+      org.quartz.jobStore.useProperties: true
+      org.quartz.jobStore.misfireThreshold: 60000
+      org.quartz.jobStore.tablePrefix: qrtz_
+      org.quartz.jobStore.isClustered: true
+      org.quartz.plugin.shutdownHook.class: org.quartz.plugins.management.ShutdownHookPlugin
+      org.quartz.plugin.shutdownHook.cleanShutdown: TRUE
+      
+springdoc:
+  api-docs:
+    enabled: true
+  paths-to-match: /v1, /api/**
+  packages-to-scan: com.payoneer.cs
+  swagger-ui:
+    operations-sorter: method
+    enabled: true
+  
+server:
+  servlet:
+    contextPath: /jms    
+  tomcat:
+    max-http-form-post-size: 100000000
+    max-swallow-size: 100000000 
+---
+
+spring:
+  profiles: dev
+  datasource:
+    platform: org.hibernate.dialect.MySQL5Dialect
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jms_service_db
+    username: root
+    password: admin
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+    enabled: true
+    password: admin
+    url: jdbc:mysql://localhost:3306/jms_service_db
+    user: root
+app:
+  fileStore: ".store"
+---
+
+spring:
+  profiles: prod
+  datasource:
+    platform: org.hibernate.dialect.MySQL5Dialect
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jms_service_db
+    username: root
+    password: admin
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+    enabled: true
+    liquibase-schema: 
+    password: admin
+    url: jdbc:mysql://localhost:3306/jms_service_db
+    user: root
+app:
+  fileStore: ".store"
