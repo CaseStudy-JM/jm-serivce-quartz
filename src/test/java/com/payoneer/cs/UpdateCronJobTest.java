@@ -42,7 +42,7 @@ class UpdateCronJobTest {
 	}
 
 	@Test
-	void testUpdateJob() throws ExecutionException, InterruptedException {
+	void testUpdateCronJob() throws ExecutionException, InterruptedException {
 		webTestClient.mutate().responseTimeout(Duration.ofSeconds(30)).build().put()
 				.uri("/jms/api/v1/job/".concat(jobId))
 				.body(BodyInserters.fromValue(testHelper.getEntityForCronJobUpdate())).exchange().expectStatus().isOk()
