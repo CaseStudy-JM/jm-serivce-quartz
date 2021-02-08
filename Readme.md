@@ -70,6 +70,7 @@ The project consists of following modules:
 ### Build & Run
 * Build [Job Starter] (https://github.com/CaseStudy-JM/jm-job-starter): job starter is to be built before building any job.
     * **Build it** : *mvnw.cmd clean install*
+	* **Code Coverage Report Path**: *\jm-serivce-quartz\target\site\jacoco\index.html*
 
 * Build Actual Jobs:
     * [Job Logger] (https://github.com/CaseStudy-JM/jm-job-logger)
@@ -106,6 +107,37 @@ The project consists of following modules:
      * Response Status:
         ```
         201
+        ```
+ * Job Update (Only Scheduled jobs can be updated)
+     * Request URL : http://localhost:8080/jms/api/v1/job/{jobId}
+     * Request Body:
+        ```        
+		jobName: job_name
+		jobGroupName: job_group_name
+        parameters : 'optional, space seperated parameter for job'
+        environmentString : 'optional, space seperated environment variable for job'
+        priority : 'optional, int value representing job priority (1-10)' Default value 5
+        schedule : 'optional, schedule represented in 'yyyy-MM-dd HH:mm:ss' format' 
+		cronExpression: cron expression to repeat the jobs
+		repeatTime: job to repeate on interval default value 60000
+        ```
+     * Response Body:
+        ```
+        True
+        ```
+     * Response Status:
+        ```
+        200
+        ```
+ * Delete Job By Id (scheduled jobs it will be canceled /Other wise job records will be removed from DB)
+     * Request URL : http://localhost:8080/jms/api/v1/job/{jobId}
+     * Response Body:
+        ```
+        True
+        ```
+     * Response Status:
+        ```
+        200
         ```
  * Get Job By Id
      * Request URL : http://localhost:8080/jms/api/v1/job/{jobId} 
