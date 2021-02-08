@@ -160,5 +160,5 @@ The following guides illustrate how to use some features concretely:
 
 * [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Building Quartz Jobs] (http://www.quartz-scheduler.org/documentation/quartz-2.3.0/examples/)
-* [Liquibase integration] (https://docs.liquibase.com/tools-integrations/springboot/using-springboot-with-maven.html)
+* [Building Quartz Jobs](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/examples/)
+* [Liquibase integration](https://docs.liquibase.com/tools-integrations/springboot/using-springboot-with-maven.html/)
