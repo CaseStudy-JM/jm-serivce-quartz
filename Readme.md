@@ -148,9 +148,9 @@ The project consists of following modules:
           "type": "SPRING_BOOT_JAR",
           "status": "{QUEUED | FAILED | SUCCESS}",
           "fileLocation": ".store/{jobId}.jar",
-		  "jobName": "job_name",
-		  "jobGroupName: job_group_name",
-		  "cronExpression": "0 0 * * 5",
+		  "jobName": "sendEmail",
+		  "jobGroupName: "emailJobs",
+		  "priority": 5,
 		  "repeatTime": "6000",
           "schedule": {
             "executionType": "IMMEDIATE"
@@ -172,12 +172,13 @@ The project consists of following modules:
                "status": "{QUEUED | FAILED | SUCCESS}",
                "fileLocation": ".store/{jobId}.jar",
                "schedule": {
-                 "executionType": "IMMEDIATE"
+                 "executionType": "SCHEDULED",
+				 "scheduleDateTime": "2021-02-08 17:06:30"
                }
-			"jobName": "job_name",
-			"jobGroupName: job_group_name",
-			"cronExpression": "0 0 * * 5",
-			"repeatTime": "6000",
+			   "jobName": "loadData",
+			   "jobGroupName: "dataLoadJobs",
+			   "cronExpression": "0 0 * * 5",
+			   "repeatTime": "6000"
              }
              ...
          ]
